@@ -1,0 +1,35 @@
+body{
+  background-color: #FFFDF4;
+  color: #222329;
+  font-family: 'News Cycle', sans-serif;
+  font-weight: 400;
+  display: flex;
+  width: 90%;
+  height: 100vh;
+  margin: auto;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+}
+
+button {
+  padding: .8rem;
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 0.2rem;
+  font-weight: 700;
+  margin-top: 1rem;
+}
+
+.demo{
+  font-size: 1.2rem;
+  color: blue;
+}
+
+input{
+  padding: 0.4rem;
+  background-color: #e9e9e9;
+  border: none;
+}

@@ -6,33 +6,35 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <link rel="stylesheet" href="style.css" type="css">
+  <link href="https://fonts.googleapis.com/css?family=News+Cycle:400,700&display=swap" rel="stylesheet">
 </head>
 <body>   
     <h1>Annoying Alarm</h1>
     <button class="startButton">Start jouw alarm</button>
     <p class="text">Tijd tot jouw wekker afgaat:</p>
     <p class="demo"></p>
-    <video name="media" id="audio">
-        <source src="http://soundbible.com/mp3/analog-watch-alarm_daniel-simion.mp3" type="audio/mpeg">
-    </video>
 
     <div class="activity1">
       <h2 class="activity1__title">Geef de som van deze 2 getallen in</h2>
-      <p class="input__field__1"></p>
-      <p>+</p>
-      <p class="input__field__2"></p>
-      <p>=</p>
-      <p class="error"></p>
-      <input type="number" class="userSumInput"><br><br>
-      <button class="submit">Sla je antwoord op </button><br><br>
+      <p class="input__field__1"></p><p></p>+<p class="input__field__2"></p><p>=</p>
+      <input type="number" class="userSumInput"><br>
+      <button class="submit">Sla je antwoord op </button>
       <button class="check">Controleer antwoord</button>
     </div>
 
     <div class="activity2">
         <p class="activity2__number"></p>
         <p class="pressedtime"></p>
-        <button class="reset">Begin opnieuw</button><br><br>
-        <button class="checkPressed">Controleer waarden</button><br><br>
-      </div>
+        <button class="reset">Begin opnieuw</button>
+        <button class="checkPressed">Controleer waarden</button>
+    </div>
+
+    <div class="activity3">
+        <p>Loopt nu nog voorbij de bewegingssensor en je bent klaar om je dag goed te beginnen.</p>
+    </div>
+
+    <audio name="media" id="audio">
+        <source src="https://github.com/DewulfTjorven/ArduinoProjectJ5/blob/master/src/renderer/alarm.mp3" type="audio/mpeg">
+        </audio>
 </body>
 </html>

@@ -1,4 +1,7 @@
-const { Board, Led, Motion, Sensor, Button} = require("johnny-five");
+require('../renderer/style.css');
+require('../renderer/alarm.mp3');
+
+const { Board, Led, Motion, Button} = require("johnny-five");
 const board = new Board({
   repl: false
 });
@@ -9,15 +12,22 @@ board.on("ready", () => {
   const startButton = document.querySelector('.startButton');
   const activity1Wrapper = document.querySelector('.activity1');
   const activity2Wrapper = document.querySelector('.activity2');
+  const activity3Wrapper = document.querySelector('.activity3');
   activity1Wrapper.style.display = 'none';
   activity2Wrapper.style.display = 'none';
+  activity3Wrapper.style.display = 'none';
 
 
 
   startButton.addEventListener("click", function(){
 
+    startButton.style.display = 'none';
     // ENTER WAKE UP TIME HERE
-    const countDownDate = new Date("Jan 26, 2020 02:08:20").getTime();
+
+
+    const countDownDate = new Date("Jan 26, 2020 16:10:00").getTime();
+
+
     const audio = document.querySelector('#audio');
 
     // Update the count down every 1 second
@@ -58,6 +68,8 @@ board.on("ready", () => {
 
         var led = new Led(13);
         var led1 = new Led(12);
+        var led2 = new Led(11);
+        const motion = new Motion(7);
 
         function activity1(){
          
@@ -70,8 +82,8 @@ board.on("ready", () => {
           const checkBtn = document.querySelector('.check');
           if(activity1Wrapper){
               activity1title.innerHTML = "Geef de som van deze 2 getallen in";
-              inputField1.innerHTML = Math.floor(Math.random() * 50);
-              inputField2.innerHTML = Math.floor(Math.random() * 50);
+              inputField1.innerHTML = Math.floor(Math.random() * 100);
+              inputField2.innerHTML = Math.floor(Math.random() * 100);
             
               submit.addEventListener('click', storeValue);
 
@@ -94,7 +106,7 @@ board.on("ready", () => {
                   function activity2(){
                     var button = new Button(2);
                     const buttonPress = document.querySelector('.activity2__number');
-                    const randomButtonAmount = Math.floor(Math.random() * 10);
+                    const randomButtonAmount = Math.floor(Math.random() * 35);
                     const pressTime = document.querySelector('.pressedtime');
                     const reset = document.querySelector('.reset');
                     const checkPressed = document.querySelector('.checkPressed');
@@ -114,7 +126,7 @@ board.on("ready", () => {
                     button.on("release", function() {
                       console.log( "Button released" );
                     });
-
+                 
                     reset.addEventListener('click', resetPressedTimes);
 
                     function resetPressedTimes(){
@@ -128,62 +140,45 @@ board.on("ready", () => {
                         console.log("Your pressed the right amount of times, op naar stap 3");
                         led1.stop().on();
                         activity2Wrapper.style.display = 'none';
+                        led2.blink();
+                        activity3Wrapper.style.display = 'block';
 
+                        function activity3(){
+                          // "calibrated" occurs once, at the beginning of a session,
+                          motion.on("calibrated", function() {
+                            console.log("calibrated");
+                          });
+
+                          // "motionstart" events are fired when the "calibrated"
+                          // proximal area is disrupted, generally by some form of movement
+                          motion.on("motionstart", function() {
+                            console.log("motionstart");
+                            audio.pause()
+                            led2.stop().on();
+                            activity3Wrapper.style.display = "none";
+                            document.querySelector(".demo").innerHTML = "Je hebt alle proeven doorstaan, Geniet van je dag!" + '<br>' + '<br>' + '<br>' + 'Met dank aan http://soundbible.com/mp3/analog-watch-alarm_daniel-simion.mp3 voor het gebruiken van een annoying alarmsound';
+                          });
+
+                          // "motionend" events are fired following a "motionstart" event
+                          // when no movement has occurred in X ms
+                          motion.on("motionend", function() {
+                            console.log("motionend");
+                          });
+                        }
+                        activity3();
                       }
                     }
                   }
                   activity2();
                 }
               }
-              checkAnswer();
+            checkAnswer();
           }
         }
         activity1();
       }
     }, 1000);
   });
-
-  
-  /*
-  // declare new led
-  const led = new Led(13);
-  
-  //declare DOM of button
-  const ledButton = document.querySelector('#btn');
-
-  // add an eventlistener to the button and led
-  ledButton.addEventListener("click", handleClick);
-
-  // toggle led when clicking the button
-  function handleClick() {
-    led.toggle();
-  }
-  */
-
-
-  /* MOTION SENSOR WHEN USER HAS COMPLETED TESTS
-  // Create a new `motion` hardware instance.
-  const motion = new Motion(7);
-
-  // "calibrated" occurs once, at the beginning of a session,
-  motion.on("calibrated", function() {
-    console.log("calibrated");
-  });
-
-  // "motionstart" events are fired when the "calibrated"
-  // proximal area is disrupted, generally by some form of movement
-  motion.on("motionstart", function() {
-    console.log("motionstart");
-
-  });
-
-  // "motionend" events are fired following a "motionstart" event
-  // when no movement has occurred in X ms
-  motion.on("motionend", function() {
-    console.log("motionend");
-  });
-  */
-
 });
 
 
